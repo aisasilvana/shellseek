@@ -15,7 +15,7 @@ class ChatController extends Controller
 
     public function index()
     {
-        $conversation = Conversation::first();
+        $conversation = Conversation::latest()->first();
 
         if (!$conversation) {
             $conversation = Conversation::create([
@@ -24,10 +24,25 @@ class ChatController extends Controller
             ]);
         }
 
+        return redirect()->route('chat.show', $conversation);
+    }
+
+    public function show(Conversation $conversation)
+    {
         return view('chat.index', [
             'conversation' => $conversation,
             'messages' => $conversation->messages()->orderBy('id')->get(),
         ]);
+    }
+
+    public function newChat()
+    {
+        $conversation = Conversation::create([
+            'title' => 'Sesi baru',
+            'target' => 'latihan-lab.local',
+        ]);
+
+        return redirect()->route('chat.show', $conversation);
     }
 
     public function send(Request $request, Conversation $conversation)
@@ -55,7 +70,7 @@ class ChatController extends Controller
             'agent' => $suggestion['agent'],
         ]);
 
-        return redirect()->route('chat.index');
+        return redirect()->route('chat.show', $conversation);
     }
 
     public function executeCommand(Message $message)
@@ -67,7 +82,7 @@ class ChatController extends Controller
             'execution_output' => "22/tcp open  ssh     OpenSSH 8.9\n80/tcp open  http    nginx 1.24.0",
         ]);
 
-        return redirect()->route('chat.index');
+        return redirect()->route('chat.show', $message->conversation);
     }
 
     public function cancelCommand(Message $message)
@@ -76,6 +91,6 @@ class ChatController extends Controller
 
         $message->update(['status' => 'cancelled']);
 
-        return redirect()->route('chat.index');
+        return redirect()->route('chat.show', $message->conversation);
     }
 }
