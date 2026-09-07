@@ -27,6 +27,9 @@ class ReconController extends Controller
             'username' => 'required|string|max:100',
         ]);
 
+        // Hapus hasil pencarian lama untuk username yang sama, sebelum simpan yang baru
+        ReconResult::where('username', $request->username)->delete();
+
         $platforms = $this->checkUsername($request->username);
 
         foreach ($platforms as $p) {
