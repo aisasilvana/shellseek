@@ -5,12 +5,15 @@ namespace App\Http\Controllers;
 use App\Models\Conversation;
 use App\Models\Message;
 use App\Services\FlaskAgentService;
+use App\Services\ScopeEnforcerService;
 use Illuminate\Http\Request;
 
 class ChatController extends Controller
 {
-    public function __construct(protected FlaskAgentService $agent)
-    {
+    public function __construct(
+        protected FlaskAgentService $agent,
+        protected ScopeEnforcerService $scopeEnforcer
+    ) {
     }
 
     public function index()
@@ -60,13 +63,18 @@ class ChatController extends Controller
 
         $suggestion = $this->agent->suggest($request->message, $conversation->target);
 
+        // Scope Enforcer — klasifikasi command sebelum ditampilkan ke user
+        $scopeStatus = $this->scopeEnforcer->check($suggestion['command']);
+        $scopeMessage = $this->scopeEnforcer->message($scopeStatus);
+
         Message::create([
             'conversation_id' => $conversation->id,
             'role' => 'assistant',
             'type' => 'command_suggestion',
-            'content' => $suggestion['content'],
+            'content' => $suggestion['content'] . ($scopeMessage ? "\n\n⚠ {$scopeMessage}" : ''),
             'command_text' => $suggestion['command'],
-            'status' => 'pending',
+            'status' => $scopeStatus === 'deny' ? 'cancelled' : 'pending',
+            'scope_status' => $scopeStatus,
             'agent' => $suggestion['agent'],
         ]);
 
@@ -76,6 +84,7 @@ class ChatController extends Controller
     public function executeCommand(Message $message)
     {
         abort_unless($message->type === 'command_suggestion' && $message->status === 'pending', 404);
+        abort_if($message->scope_status === 'deny', 403);
 
         $message->update([
             'status' => 'executed',

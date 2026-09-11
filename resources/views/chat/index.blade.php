@@ -29,9 +29,17 @@
                     </div>
                 @endif
 
-                <div class="cmd-card">
+                <div class="cmd-card" style="
+                    @if ($msg->scope_status === 'deny') border-left:3px solid var(--coral);
+                    @elseif ($msg->scope_status === 'warning') border-left:3px solid var(--amber);
+                    @endif
+                ">
                     <div class="cmd-card-eyebrow">
-                        @if ($msg->status === 'pending')
+                        @if ($msg->scope_status === 'deny')
+                            ✕ ditolak scope enforcer
+                        @elseif ($msg->status === 'pending' && $msg->scope_status === 'warning')
+                            ⚠ perlu perhatian — cek scope sebelum eksekusi
+                        @elseif ($msg->status === 'pending')
                             ⚠ perlu konfirmasi sebelum eksekusi
                         @elseif ($msg->status === 'cancelled')
                             ✕ dibatalkan oleh user
@@ -41,7 +49,11 @@
                     </div>
                     <div class="cmd-code">{{ $msg->command_text }}</div>
 
-                    @if ($msg->status === 'pending')
+                    @if ($msg->scope_status === 'deny')
+                        <div class="result-card" style="border-color:var(--coral); color:var(--coral);">
+                            Command ini tidak dapat dieksekusi karena berada di luar scope yang diizinkan sistem.
+                        </div>
+                    @elseif ($msg->status === 'pending')
                         <div class="cmd-actions">
                             <form action="{{ route('chat.execute', $msg) }}" method="POST">
                                 @csrf
@@ -64,7 +76,7 @@
 
         @empty
             <div class="msg-row assistant">
-                <div class=bubble">
+                <div class="bubble">
                     <div class="assistant-tag"><span class="dot"></span>assistant</div>
                     Halo, mau dibantu apa hari ini? Tanya saja pakai bahasa biasa.
                 </div>

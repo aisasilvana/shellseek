@@ -9,6 +9,25 @@ class FlaskAgentService
         $message = strtolower($message);
         $target = $target ?: 'target.local';
 
+        // Contoh yang memicu DENY (command berbahaya/di luar scope)
+        if (str_contains($message, 'hapus') || str_contains($message, 'format')) {
+            return [
+                'content' => 'Untuk menghapus data secara permanen, kamu bisa pakai command ini.',
+                'command' => 'rm -rf /var/www/data',
+                'agent' => 'scanning_agent',
+            ];
+        }
+
+        // Contoh yang memicu WARNING (command agresif/cakupan luas)
+        if (str_contains($message, 'kerentanan') || str_contains($message, 'vulnerability') || str_contains($message, 'vuln')) {
+            return [
+                'content' => 'Untuk cek kerentanan secara menyeluruh, saya siapkan scan dengan script vuln Nmap.',
+                'command' => "nmap -A --script vuln {$target}",
+                'agent' => 'scanning_agent',
+            ];
+        }
+
+        // Contoh normal (ALLOW)
         if (str_contains($message, 'ip') || str_contains($message, 'alamat')) {
             return [
                 'content' => 'Untuk melihat IP address di laptopmu sendiri, kamu bisa pakai command ini.',
@@ -33,7 +52,7 @@ class FlaskAgentService
             ];
         }
 
-        // default, kalau tidak ada kata kunci yang cocok
+        // Default (ALLOW)
         return [
             'content' => 'Saya belum yakin maksudnya apa, tapi coba cek koneksi ke target dulu.',
             'command' => "ping {$target}",
