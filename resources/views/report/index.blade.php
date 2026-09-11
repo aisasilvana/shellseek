@@ -10,7 +10,7 @@
 <div class="view active">
     <div class="dash">
         <div class="dash-head">
-            <div class="dash-eyebrow">Report · Ringkasan</div>
+            <div class="dash-eyebrow">Report · Ringkasa n</div>
             <div class="dash-title">Laporan hasil pentest</div>
             <div class="dash-desc">Rangkuman temuan dari Reconnaissance dan Scanning.</div>
         </div>
