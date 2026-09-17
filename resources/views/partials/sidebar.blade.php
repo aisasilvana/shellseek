@@ -1,7 +1,7 @@
 <div class="sidebar">
   <div class="brand">
     <div class="brand-mark"><span class="dot"></span>ShellSeek</div>
-    <div class="brand-sub">agentic pentest assistant</div>
+    <div class="brand-sub">Agentic Pentest Assistant</div>
   </div>
   <div class="nav">
     <div class="nav-label">Assistant</div>
