@@ -12,7 +12,7 @@
 
 <div class="auth-card">
     <div class="brand-mark"><span class="dot"></span>ShellSeek</div>
-    <div class="brand-sub" style="margin-bottom:24px;">buat akun baru</div>
+    <div class="brand-sub" style="margin-bottom:24px;">Buat Akun Baru</div>
 
     @if ($errors->any())
         <div class="auth-error">
@@ -37,7 +37,7 @@
         <button type="submit" class="btn-run" style="width:100%; margin-top:8px;">Daftar</button>
     </form>
 
-    <p class="auth-footer">Sudah punya akun? <a href="{{ route('login') }}">Masuk di sini</a></p>
+    <p class="auth-footer">Sudah Punya Akun? <a href="{{ route('login') }}">Masuk di sini</a></p>
 </div>
 
 </body>
