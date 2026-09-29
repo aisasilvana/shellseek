@@ -37,7 +37,7 @@
         <button type="submit" class="btn-run" style="width:100%; margin-top:8px;">Daftar</button>
     </form>
 
-    <p class="auth-footer">Sudah Punya Akun? <a href="{{ route('login') }}">Masuk di sini</a></p>
+    <p class="auth-footer">Sudah Punya Akun? <a href="{{ route('login') }}">Masuk Di Sini</a></p>
 </div>
 
 </body>
