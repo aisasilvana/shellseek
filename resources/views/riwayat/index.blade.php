@@ -15,7 +15,7 @@
     <div class="dash">
         <div class="dash-head">
             <div class="dash-eyebrow">Riwayat</div>
-            <div class="dash-title">Semua sesi percakapan</div>
+            <div class="dash-title">Semua Sesi Percakapan</div>
             <div class="dash-desc">Buka kembali sesi lama, atau mulai sesi baru.</div>
         </div>
 
