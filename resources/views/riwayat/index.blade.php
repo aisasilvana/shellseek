@@ -38,7 +38,7 @@
                     </tbody>
                 </table>
             @else
-                <p style="color:var(--text-muted); font-size:13px;">Belum ada percakapan.</p>
+                <p style="color:var(--text-muted); font-size:13px;">Belum Ada Percakapan.</p>
             @endif
         </div>
     </div>
