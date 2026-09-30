@@ -2,7 +2,7 @@
 
 @section('pipeline')
 <div class="pipeline-bar">
-    <div class="pipeline-title">Modul — <span>Riwayat percakapan</span></div>
+    <div class="pipeline-title">Modul — <span>Riwayat Percakapan</span></div>
     <form action="{{ route('chat.new') }}" method="POST">
         @csrf
         <button type="submit" class="btn-run">+ Chat baru</button>
