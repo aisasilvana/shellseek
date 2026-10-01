@@ -12,7 +12,7 @@
 
 <div class="auth-card">
     <div class="brand-mark"><span class="dot"></span>ShellSeek</div>
-    <div class="brand-sub" style="margin-bottom:24px;">masuk ke akunmu</div>
+    <div class="brand-sub" style="margin-bottom:24px;">Masuk Ke Akunmu</div>
 
     @if ($errors->any())
         <div class="auth-error">
